@@ -21,30 +21,38 @@ public class SongImporter
             String header_fields = csv.nextLine();
 
             while (csv.hasNextLine()) {
-                try {
-                    lineNumber++;
-                    String artistName = csv.next();
-                    String trackName = csv.next();
-                    String releaseDate = csv.next();
-                    String genre = csv.next();
-                    String length = csv.next();
-                    String shakeTheAudience = csv.next();
-                    String obscene = csv.next();
-                    String danceability = csv.next();
-                    String loudness = csv.next();
-                    String topic = csv.next();
-
-                    // Debug print
-                    //System.out.println("length: " + length + "topic: " + topic);
-
-                    // Replace the next line with your song constructor
-                    Song song = new Song(artistName, trackName); // code to construct a song object
-                    songs.add(song);
-                }
-                catch (NoSuchElementException ex)
+                if (lineNumber > 30)
                 {
-                    System.out.println("Exception processing line: " + lineNumber);
+                    break;
                 }
+
+                lineNumber++; // Keep track of line numbers to make inspection of data errors simpler.
+
+                // This puts the next line of the file into a String named line.
+                String line = csv.nextLine();
+                // The string is then split on each comma into an array of fields.
+                String[] fields = line.split(",");
+
+                // Each field is given a name to simply their usage in constructing songs. 
+                String artistName = fields[0];
+                String trackName = fields[1];
+                String releaseDate = fields[2];
+                String genre = fields[3];
+                String length = fields[4];
+                String shakeTheAudience = fields[5];
+                String obscene = fields[6];
+                String danceability = fields[7];
+                String loudness = fields[8];
+                String topic = fields[9];
+
+                // Debug print
+                //System.out.println("artist: " + artist + " length: " + length + "topic: " + topic);
+
+                // Replace the next line with your song constructor
+                Song song = new Song(artistName, trackName); // code to construct a song object
+
+                // Add the song object to the data output.
+                songs.add(song);
             }
             csv.close();
         } catch (Exception ex) {
